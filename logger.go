@@ -7,6 +7,48 @@ import (
 	"time"
 )
 
+func Debug(message interface{}, tags ...Tag) {
+	printLogItem(debug(message, tags...))
+}
+
+func Warning(message interface{}, tags ...Tag) {
+	printLogItem(warning(message, tags...))
+}
+
+func Error(message interface{}, tags ...Tag) {
+	printLogItem(error(message, tags...))
+}
+
+func Fatal(message interface{}, tags ...Tag) {
+	printLogItem(fatal(message, tags...))
+	os.Exit(1)
+}
+
+func debug(message interface{}, tags ...Tag) LogItem {
+	return makeLogItem(message, tags...)
+}
+
+func warning(message interface{}, tags ...Tag) LogItem {
+	logItem := makeLogItem(message, tags...)
+	logItem.Severity = WARNING
+
+	return logItem
+}
+
+func error(message interface{}, tags ...Tag) LogItem {
+	logItem := makeLogItem(message, tags...)
+	logItem.Severity = ERROR
+
+	return logItem
+}
+
+func fatal(message interface{}, tags ...Tag) LogItem {
+	logItem := makeLogItem(message, tags...)
+	logItem.Severity = FATAL
+
+	return logItem
+}
+
 type LogItem struct {
 	Severity  Severity    `json:"severity"`
 	Timestamp time.Time   `json:"timestamp"`
@@ -29,33 +71,6 @@ type Caller struct {
 	File string `json:"file"`
 	Line int    `json:"line"`
 	Func string `json:"func"`
-}
-
-func Debug(message interface{}, tags ...Tag) {
-	logItem := makeLogItem(message, tags...)
-	printLogItem(logItem)
-}
-
-func Warning(message interface{}, tags ...Tag) {
-	logItem := makeLogItem(message, tags...)
-	logItem.Severity = WARNING
-
-	printLogItem(logItem)
-}
-
-func Error(message interface{}, tags ...Tag) {
-	logItem := makeLogItem(message, tags...)
-	logItem.Severity = ERROR
-
-	printLogItem(logItem)
-}
-
-func Fatal(message interface{}, tags ...Tag) {
-	logItem := makeLogItem(message, tags...)
-	logItem.Severity = FATAL
-
-	printLogItem(logItem)
-	os.Exit(1)
 }
 
 func makeLogItem(message interface{}, tags ...Tag) LogItem {
