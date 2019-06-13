@@ -87,7 +87,9 @@ func makeLogItem(message interface{}, tags ...Tag) LogItem {
 	}
 }
 
-var CallerDepth = 4
+const DefaultCallerDepth = 4
+
+var CallerDepth = DefaultCallerDepth
 
 func makeCaller() Caller {
 	programCounter, file, line, _ := runtime.Caller(CallerDepth)
