@@ -83,12 +83,14 @@ func makeLogItem(message interface{}, tags ...Tag) LogItem {
 		Timestamp: time.Now(),
 		Message:   message,
 		Tags:      tags,
-		Caller:    caller(3),
+		Caller:    makeCaller(),
 	}
 }
 
-func caller(depth int) Caller {
-	programCounter, file, line, _ := runtime.Caller(depth)
+var CallerDepth = 4
+
+func makeCaller() Caller {
+	programCounter, file, line, _ := runtime.Caller(CallerDepth)
 	funcDetails := runtime.FuncForPC(programCounter)
 
 	return Caller{
