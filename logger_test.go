@@ -5,33 +5,37 @@ import (
 )
 
 func TestDebug(t *testing.T) {
-	logItem := debug("Hello, World")
+	expected := sevDebug
+	got := debug("Hello").Severity
 
-	if logItem.Severity != DEBUG {
-		t.Errorf("expected severity %s; got %s", DEBUG, logItem.Severity)
+	if expected != got {
+		t.Errorf("expected %s; got %s", expected, got)
 	}
 }
 
 func TestWarning(t *testing.T) {
-	logItem := warning("Hello, World")
+	expected := sevWarning
+	got := warning("Hello").Severity
 
-	if logItem.Severity != WARNING {
-		t.Errorf("expected severity %s; got %s", WARNING, logItem.Severity)
+	if expected != got {
+		t.Errorf("expected %s; got %s", expected, got)
 	}
 }
 
 func TestError(t *testing.T) {
-	logItem := error("Hello, World")
+	expected := sevError
+	got := error("Hello").Severity
 
-	if logItem.Severity != ERROR {
-		t.Errorf("expected severity %s; got %s", ERROR, logItem.Severity)
+	if expected != got {
+		t.Errorf("expected %s; got %s", expected, got)
 	}
 }
 
 func TestFatal(t *testing.T) {
-	logItem := fatal("Hello, World")
+	expected := sevFatal
+	got := fatal("Hello").Severity
 
-	if logItem.Severity != FATAL {
-		t.Errorf("expected severity %s; got %s", FATAL, logItem.Severity)
+	if expected != got {
+		t.Errorf("expected %s; got %s", expected, got)
 	}
 }

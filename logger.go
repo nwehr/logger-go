@@ -7,6 +7,13 @@ import (
 	"time"
 )
 
+// DefaultCallerDepth is the scope at which you call Debug("hello")
+const DefaultCallerDepth = 4
+
+// CallerDepth allows you to specifiy a custom depth for runtime info
+// set CallerDepth = DefaultCallerDepth + 1 to add one layer of indirection
+var CallerDepth = DefaultCallerDepth
+
 func Debug(message interface{}, tags ...Tag) {
 	printLogItem(debug(message, tags...))
 }
@@ -30,21 +37,21 @@ func debug(message interface{}, tags ...Tag) LogItem {
 
 func warning(message interface{}, tags ...Tag) LogItem {
 	logItem := makeLogItem(message, tags...)
-	logItem.Severity = WARNING
+	logItem.Severity = sevWarning
 
 	return logItem
 }
 
 func error(message interface{}, tags ...Tag) LogItem {
 	logItem := makeLogItem(message, tags...)
-	logItem.Severity = ERROR
+	logItem.Severity = sevError
 
 	return logItem
 }
 
 func fatal(message interface{}, tags ...Tag) LogItem {
 	logItem := makeLogItem(message, tags...)
-	logItem.Severity = FATAL
+	logItem.Severity = sevFatal
 
 	return logItem
 }
@@ -61,10 +68,10 @@ type Tag string
 type Severity string
 
 const (
-	DEBUG   = "debug"
-	WARNING = "warning"
-	ERROR   = "error"
-	FATAL   = "fatal"
+	sevDebug   = Severity("debug")
+	sevWarning = Severity("warning")
+	sevError   = Severity("error")
+	sevFatal   = Severity("fatal")
 )
 
 type Caller struct {
@@ -79,17 +86,13 @@ func makeLogItem(message interface{}, tags ...Tag) LogItem {
 	}
 
 	return LogItem{
-		Severity:  DEBUG,
+		Severity:  sevDebug,
 		Timestamp: time.Now(),
 		Message:   message,
 		Tags:      tags,
 		Caller:    makeCaller(),
 	}
 }
-
-const DefaultCallerDepth = 4
-
-var CallerDepth = DefaultCallerDepth
 
 func makeCaller() Caller {
 	programCounter, file, line, _ := runtime.Caller(CallerDepth)
