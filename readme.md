@@ -1,8 +1,16 @@
+## Install ##
+
+```
+$ go get github.com/nwehr/logger-go
+```
+
+## Example Usage ##
+
 ```go
 package main
 
 import (
-	"gitlab.com/nwehr/logger-go"
+	"github.com/nwehr/logger-go"
 )
 
 func main() {
