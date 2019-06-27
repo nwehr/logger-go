@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/nwehr/logger-go.svg?branch=master)](https://travis-ci.org/nwehr/logger-go)
+
 ## Install ##
 
 ```
