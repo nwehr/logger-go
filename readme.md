@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/nwehr/logger-go.svg?branch=master)](https://travis-ci.org/nwehr/logger-go)
+[![Coverage Status](https://coveralls.io/repos/github/nwehr/logger-go/badge.svg?branch=master)](https://coveralls.io/github/nwehr/logger-go?branch=master)
+
 ## Install ##
 
 ```
