@@ -2,6 +2,7 @@ package logger
 
 import (
 	"encoding/json"
+	"io"
 	"os"
 	"runtime"
 	"time"
@@ -107,5 +108,11 @@ func makeCaller() Caller {
 
 func printLogItem(logItem LogItem) {
 	data, _ := json.Marshal(logItem)
-	println(string(data))
+	dest.Write(data)
+}
+
+var dest io.Writer
+
+func init() {
+	dest = os.Stdout
 }
