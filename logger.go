@@ -29,7 +29,7 @@ func Error(message interface{}, tags ...Tag) {
 
 func Fatal(message interface{}, tags ...Tag) {
 	printLogItem(fatal(message, tags...))
-	os.Exit(1)
+	exit(1)
 }
 
 func debug(message interface{}, tags ...Tag) LogItem {
@@ -88,7 +88,7 @@ func makeLogItem(message interface{}, tags ...Tag) LogItem {
 
 	return LogItem{
 		Severity:  sevDebug,
-		Timestamp: time.Now(),
+		Timestamp: now(),
 		Message:   message,
 		Tags:      tags,
 		Caller:    makeCaller(),
@@ -111,8 +111,18 @@ func printLogItem(logItem LogItem) {
 	dest.Write(data)
 }
 
+var now func() time.Time
+var exit func(int)
 var dest io.Writer
 
 func init() {
+	now = func() time.Time {
+		return time.Now()
+	}
+
+	exit = func(exitCode int) {
+		os.Exit(exitCode)
+	}
+
 	dest = os.Stdout
 }
